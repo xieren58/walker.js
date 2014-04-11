@@ -9,7 +9,7 @@
     "twitter": "https://twitter.com/jongleberry"
   },
   "license": "MIT",
-  "repository": "component/walk.js",
+  "repository": "component/walker.js",
   "dependencies": {
     "debug": "*",
     "co": "^3",
