@@ -59,7 +59,7 @@ This framework is superior to other bundlers in many ways:
 - There's no npm!
 - It's tiny!
 
-## Costs
+## Cons
 
 - Specific end points - for this to work, we need proxies to GitHub and other repositories to normalize various aspects of this process, otherwise it would be __too__ inconvenient. However, this creates another point of failure, though setting up your own proxy shouldn't be difficult.
 - Long URLs and dependency names - there's no shortcuts when writing your dependency URLs. If the browser won't support it, then there's really no point in us supporting it.
@@ -119,54 +119,6 @@ var tree = yield* walker.tree();
 tree[__dirname + '/index.js'];
 tree[__dirname + '/index.css'];
 ```
-
-### Middleware
-
-Middleware look like this:
-
-```js
-walker.use(function* (next) {
-  yield* next;
-
-  // not JS, so don't do anything
-  if (this.extname !== '.js') return;
-
-  // set the source filename if not already set
-  // it could be different than `this.uri` if transpilations occur
-  if (!this.source) yield* this.setSource(this.uri);
-
-  // optionally read the file,
-  // specifically when you need to parse for dependencies
-  var string = yield* this.getString();
-
-  // maybe do some transformations
-  var string = this.string = transform(string);
-
-  // have upstream middleware treat this string as a different type of file
-  this.extname = '.css';
-
-  // add dependencies
-  this.dependencies['../emitter.js'] = {
-    uri: '/Users/jong/emitter.js'
-  }
-})
-```
-
-You might be confused by the `yield* next`.
-The idea is that the "core" middleware such as CSS should always occur last,
-so we `yield* next` to allow all downstream middleware to execute first.
-It would be weird if `.use()` actually executed middleware in reverse order.
-
-`this` is a `File` object. This might be a little confusing, but it makes composing middleware much easier.
-
-Middleware should do the following:
-
-1. Check whether to act on a file
-2. Set the source URI, which could be different than `.uri` if you transform the file
-3. Read or transform the string.
-4. Read the dependencies of the file and push them to the `.dependencies` object.
-
-Thus, "upstream" middleware (`.use()`d first) should generally return the dependencies of files, whereas "downstream" middleware (`.use()`d last) should read and/or transform the file. Package managers would be placed very downstream.
 
 ## License
 

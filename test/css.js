@@ -17,7 +17,8 @@ describe('css', function () {
   it('should walk', co(function* () {
     walker = Walker()
       .add(entrypoint)
-      .use(Walker.plugins.css());
+      .use(Walker.plugins.css())
+      .use(Walker.plugins.file());
     tree = yield* walker.tree();
   }))
 
@@ -30,7 +31,6 @@ describe('css', function () {
     assert.ok(file.mtime);
     assert.ok(file.hash);
     assert.ok(file.basename);
-    assert.ok(file.extname);
     var deps = file.dependencies;
     assert(deps['./something.css']);
     assert(deps['else.css']);
