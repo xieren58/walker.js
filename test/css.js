@@ -17,8 +17,7 @@ describe('css', function () {
   it('should walk', co(function* () {
     walker = Walker()
       .add(entrypoint)
-      .use(Walker.plugins.css())
-      .use(Walker.plugins.file());
+      .use(Walker.defaults());
     tree = yield* walker.tree();
   }))
 
