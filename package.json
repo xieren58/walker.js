@@ -1,0 +1,28 @@
+{
+  "name": "component-walker",
+  "description": "Walk down dependencies of JS, CSS, HTML, etc. and create a tree. ",
+  "version": "0.0.0",
+  "author": {
+    "name": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "twitter": "https://twitter.com/jongleberry"
+  },
+  "license": "MIT",
+  "repository": "component/walk.js",
+  "dependencies": {
+    "debug": "*",
+    "co": "^3",
+    "co-fs": "^1.2.0",
+    "hash-stream": "^1.0.0",
+    "koa-compose": "^2.2.0",
+    "cssdeps": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^1.17"
+  },
+  "scripts": {
+    "test": "mocha --harmony-generators --reporter spec"
+  },
+  "main": "lib"
+}
