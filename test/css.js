@@ -36,3 +36,22 @@ describe('css', function () {
     assert(deps['./something.css'].file.dependencies['what.css']);
   })
 })
+
+describe('css-image', function () {
+  var entrypoint = fixture('css-image');
+  var walker;
+  var tree;
+
+  it('should walk', co(function* () {
+    walker = Walker()
+      .add(entrypoint)
+      .use(Walker.defaults());
+    tree = yield* walker.tree();
+  }))
+
+  it('should return the correct tree', function () {
+    tree = tree[entrypoint];
+    assert(tree);
+    assert(tree.file.dependencies['something.png']);
+  })
+})
