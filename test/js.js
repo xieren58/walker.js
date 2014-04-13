@@ -49,15 +49,14 @@ describe('js-html', function () {
     tree = yield* walker.tree();
   }))
 
-  it('should return the correct tree', function () {
+  it('should return the correct tree', co(function* () {
     tree = tree[entrypoint];
     assert(tree);
     assert.equal(tree.uri, entrypoint);
     var thing = tree.file.dependencies['./thing.html.js'];
-    var content = thing.string;
-    var html = JSON.parse(content.replace(/^\s*export default\s*/, '')).trim();
-    assert.equal(html, '<body></body>');
-  })
+    var html = yield* thing.file.getString();
+    assert.equal(html.trim(), '<body></body>');
+  }))
 })
 
 describe('js-json', function () {
@@ -72,15 +71,14 @@ describe('js-json', function () {
     tree = yield* walker.tree();
   }))
 
-  it('should return the correct tree', function () {
+  it('should return the correct tree', co(function* () {
     tree = tree[entrypoint];
     assert(tree);
     assert.equal(tree.uri, entrypoint);
     var thing = tree.file.dependencies['./stuff.json.js'];
-    var content = thing.string;
-    var html = JSON.parse(content.replace(/^\s*export default\s*/, ''));
-    assert.deepEqual(html, {
+    var content = JSON.parse(yield* thing.file.getString());
+    assert.deepEqual(content, {
       message: 'LOL'
     });
-  })
+  }))
 })
