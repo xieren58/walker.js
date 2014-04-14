@@ -22,10 +22,10 @@ describe('css', function () {
   }))
 
   it('should return the correct tree', function () {
-    tree = tree[entrypoint];
-    assert(tree);
-    assert.equal(tree.uri, entrypoint);
-    var file = tree.file;
+    var node = tree[entrypoint];
+    assert(node);
+    assert.equal(node.uri, entrypoint);
+    var file = node.file;
     assert.ok(file);
     assert.ok(file.mtime);
     assert.ok(file.hash);
@@ -34,6 +34,18 @@ describe('css', function () {
     assert(deps['./something.css']);
     assert(deps['else.css']);
     assert(deps['./something.css'].file.dependencies['what.css']);
+  })
+
+  it('should flatten in the correct order', function () {
+    var files = Walker.flatten(tree).map(function (x) {
+      return x.basename;
+    });
+    assert.deepEqual(files, [
+      'what.css',
+      'something.css',
+      'else.css',
+      'index.css',
+    ]);
   })
 })
 
