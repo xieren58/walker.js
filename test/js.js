@@ -41,6 +41,7 @@ describe('js-html', function () {
   var entrypoint = fixture('js-html');
   var walker;
   var tree;
+  var file;
 
   it('should walk', co(function* () {
     walker = Walker()
@@ -53,9 +54,14 @@ describe('js-html', function () {
     tree = tree[entrypoint];
     assert(tree);
     assert.equal(tree.uri, entrypoint);
-    var thing = tree.file.dependencies['./thing.html.js'];
-    var html = yield* thing.file.getString();
-    assert.equal(html.trim(), '<body></body>');
+    file = tree.file.dependencies['./thing.html.js'].file;
+  }))
+
+  it('should transform the string', co(function* () {
+    var string = yield* file.getString();
+    string = string.replace(/export default\s*/, '');
+    string = JSON.parse(string);
+    assert.deepEqual(string.trim(), '<body></body>');
   }))
 })
 
@@ -63,6 +69,7 @@ describe('js-json', function () {
   var entrypoint = fixture('js-json');
   var walker;
   var tree;
+  var file;
 
   it('should walk', co(function* () {
     walker = Walker()
@@ -75,9 +82,14 @@ describe('js-json', function () {
     tree = tree[entrypoint];
     assert(tree);
     assert.equal(tree.uri, entrypoint);
-    var thing = tree.file.dependencies['./stuff.json.js'];
-    var content = JSON.parse(yield* thing.file.getString());
-    assert.deepEqual(content, {
+    file = tree.file.dependencies['./stuff.json.js'].file;
+  }))
+
+  it('should transform the string', co(function* () {
+    var string = yield* file.getString();
+    string = string.replace(/export default\s*/, '');
+    string = JSON.parse(string);
+    assert.deepEqual(string, {
       message: 'LOL'
     });
   }))
