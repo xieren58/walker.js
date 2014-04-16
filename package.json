@@ -12,13 +12,11 @@
   "repository": "normalize/walker.js",
   "dependencies": {
     "debug": "*",
+    "normalize-dependencies": "*",
     "co": "^3",
     "hash-stream": "^1.0.0",
     "koa-compose": "^2.2.0",
     "type-is": "^1.1.0",
-    "cssdeps": "^1.0.0",
-    "requires": "^1.0.0",
-    "imports": "^1.0.0",
     "mime": "^1.2.11"
   },
   "devDependencies": {
