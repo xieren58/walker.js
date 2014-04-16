@@ -1,7 +1,7 @@
 {
-  "name": "component-walker",
+  "name": "normalize-walker",
   "description": "Walk down dependencies of JS, CSS, HTML, etc. and create a tree. ",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": {
     "name": "Jonathan Ong",
     "email": "me@jongleberry.com",
@@ -9,7 +9,7 @@
     "twitter": "https://twitter.com/jongleberry"
   },
   "license": "MIT",
-  "repository": "component/walker.js",
+  "repository": "normalize/walker.js",
   "dependencies": {
     "debug": "*",
     "co": "^3",
