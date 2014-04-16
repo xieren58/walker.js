@@ -65,6 +65,7 @@ yield function (done) {
 }
 // will be fast as files are cached
 tree = yield* walker.tree();
+```
 
 ### walker.plugins
 
