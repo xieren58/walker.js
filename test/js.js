@@ -9,15 +9,22 @@ function fixture(name) {
   return path.join(__dirname, 'fixtures', name, 'index.js');
 }
 
+function defaults(walker, options) {
+  walker.use(Walker.plugins.text(options))
+  walker.use(Walker.plugins.json(options))
+  walker.use(Walker.plugins.js(options))
+  walker.use(Walker.plugins.css(options))
+  walker.use(Walker.plugins.file(options))
+  return walker
+}
+
 describe('js', function () {
   var entrypoint = fixture('js');
   var walker;
   var tree;
 
   it('should walk', co(function* () {
-    walker = Walker()
-      .add(entrypoint)
-      .use(Walker.defaults());
+    walker = defaults(Walker().add(entrypoint))
     tree = yield* walker.tree();
   }))
 
@@ -44,9 +51,7 @@ describe('js-html', function () {
   var file;
 
   it('should walk', co(function* () {
-    walker = Walker()
-      .add(entrypoint)
-      .use(Walker.defaults());
+    walker = defaults(Walker().add(entrypoint))
     tree = yield* walker.tree();
   }))
 
@@ -72,9 +77,7 @@ describe('js-json', function () {
   var file;
 
   it('should walk', co(function* () {
-    walker = Walker()
-      .add(entrypoint)
-      .use(Walker.defaults());
+    walker = defaults(Walker().add(entrypoint))
     tree = yield* walker.tree();
   }))
 

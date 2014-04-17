@@ -9,15 +9,22 @@ function fixture(name) {
   return path.join(__dirname, 'fixtures', name, 'index.css');
 }
 
+function defaults(walker, options) {
+  walker.use(Walker.plugins.text(options))
+  walker.use(Walker.plugins.json(options))
+  walker.use(Walker.plugins.js(options))
+  walker.use(Walker.plugins.css(options))
+  walker.use(Walker.plugins.file(options))
+  return walker
+}
+
 describe('css', function () {
   var entrypoint = fixture('css');
   var walker;
   var tree;
 
   it('should walk', co(function* () {
-    walker = Walker()
-      .add(entrypoint)
-      .use(Walker.defaults());
+    walker = defaults(Walker().add(entrypoint))
     tree = yield* walker.tree();
   }))
 
@@ -55,9 +62,7 @@ describe('css-image', function () {
   var tree;
 
   it('should walk', co(function* () {
-    walker = Walker()
-      .add(entrypoint)
-      .use(Walker.defaults());
+    walker = defaults(Walker().add(entrypoint))
     tree = yield* walker.tree();
   }))
 

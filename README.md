@@ -29,20 +29,6 @@ var walker = Walker(options)
 Use a middleware.
 Middleware are Koa-style generator functions.
 
-### walker.defaults()
-
-All the default plugins. Exposed on both the constructor and prototype.
-
-```js
-var walker = Walker();
-walker.use(walker.defaults());
-
-var walker = Walker()
-  .use(Walker.defaults());
-```
-
-Note that the default plugins don't actually do much.
-
 ### var tree = yield* walker.tree()
 
 Return the tree. Returns an object hashed by each entry point.
