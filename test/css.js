@@ -10,11 +10,14 @@ function fixture(name) {
 }
 
 function defaults(walker, options) {
+  options = options || {}
   walker.use(Walker.plugins.text(options))
   walker.use(Walker.plugins.json(options))
   walker.use(Walker.plugins.js(options))
   walker.use(Walker.plugins.css(options))
   walker.use(Walker.plugins.file(options))
+  if (!options.absolute)
+    walker.use(Walker.plugins.absolute(options))
   return walker
 }
 
@@ -70,5 +73,33 @@ describe('css-image', function () {
     tree = tree[entrypoint];
     assert(tree);
     assert(tree.file.dependencies['something.png']);
+  })
+})
+
+describe('css-absolute', function () {
+  var entrypoint = fixture('css-absolute')
+
+  describe('when absolute=true', function () {
+    it('should parse absolute URLs', co(function* () {
+      var walker = defaults(Walker(), {
+        absolute: true
+      }).add(entrypoint)
+      try {
+        var tree = yield* walker.tree()
+        throw new Error()
+      } catch (err) {
+        assert.equal(err.message, 'Local does not exist: /something/else.css')
+      }
+    }))
+  })
+
+  describe('when absolute=false', function () {
+    it('should not parse absolute URLs', co(function* () {
+      var walker = defaults(Walker(), {
+        absolute: false
+      }).add(entrypoint)
+      var tree = yield* walker.tree()
+      assert(!tree[entrypoint].file.dependencies['/something/else.css'])
+    }))
   })
 })

@@ -10,11 +10,14 @@ function fixture(name) {
 }
 
 function defaults(walker, options) {
+  options = options || {}
   walker.use(Walker.plugins.text(options))
   walker.use(Walker.plugins.json(options))
   walker.use(Walker.plugins.js(options))
   walker.use(Walker.plugins.css(options))
   walker.use(Walker.plugins.file(options))
+  if (!options.absolute)
+    walker.use(Walker.plugins.absolute(options))
   return walker
 }
 
