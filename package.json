@@ -18,7 +18,9 @@
     "mime": "^1.2.11",
     "mime-extended": "^1.0.0",
     "debug": "*",
-    "co": "^3"
+    "co": "^3",
+    "co-fs": "1",
+    "is-gen-fn": "*"
   },
   "devDependencies": {
     "mocha": "^1.17"

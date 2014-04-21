@@ -1,12 +1,12 @@
 
-var co = require('co');
-var path = require('path');
-var assert = require('assert');
+var co = require('co')
+var path = require('path')
+var assert = require('assert')
 
 var Walker = require('..')
 
 function fixture(name) {
-  return path.join(__dirname, 'fixtures', name, 'index.css');
+  return path.join(__dirname, 'fixtures', name, 'index.css')
 }
 
 function defaults(walker, options) {
@@ -22,57 +22,57 @@ function defaults(walker, options) {
 }
 
 describe('css', function () {
-  var entrypoint = fixture('css');
-  var walker;
-  var tree;
+  var entrypoint = fixture('css')
+  var walker
+  var tree
 
   it('should walk', co(function* () {
     walker = defaults(Walker().add(entrypoint))
-    tree = yield* walker.tree();
+    tree = yield* walker.tree()
   }))
 
   it('should return the correct tree', function () {
-    var node = tree[entrypoint];
-    assert(node);
-    assert.equal(node.uri, entrypoint);
-    var file = node.file;
-    assert.ok(file);
-    assert.ok(file.mtime);
-    assert.ok(file.hash);
-    assert.ok(file.basename);
-    var deps = file.dependencies;
-    assert(deps['./something.css']);
-    assert(deps['else.css']);
-    assert(deps['./something.css'].file.dependencies['what.css']);
+    var node = tree[entrypoint]
+    assert(node)
+    assert.equal(node.uri, entrypoint)
+    var file = node.file
+    assert.ok(file)
+    assert.ok(file.mtime)
+    assert.ok(file.hash)
+    assert.ok(file.basename)
+    var deps = file.dependencies
+    assert(deps['./something.css'])
+    assert(deps['else.css'])
+    assert(deps['./something.css'].file.dependencies['what.css'])
   })
 
   it('should flatten in the correct order', function () {
     var files = Walker.flatten(tree).map(function (x) {
-      return x.basename;
-    });
+      return x.basename
+    })
     assert.deepEqual(files, [
       'what.css',
       'something.css',
       'else.css',
       'index.css',
-    ]);
+    ])
   })
 })
 
 describe('css-image', function () {
-  var entrypoint = fixture('css-image');
-  var walker;
-  var tree;
+  var entrypoint = fixture('css-image')
+  var walker
+  var tree
 
   it('should walk', co(function* () {
     walker = defaults(Walker().add(entrypoint))
-    tree = yield* walker.tree();
+    tree = yield* walker.tree()
   }))
 
   it('should return the correct tree', function () {
-    tree = tree[entrypoint];
-    assert(tree);
-    assert(tree.file.dependencies['something.png']);
+    tree = tree[entrypoint]
+    assert(tree)
+    assert(tree.file.dependencies['something.png'])
   })
 })
 
