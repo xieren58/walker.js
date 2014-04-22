@@ -42,7 +42,9 @@ describe('css', function () {
     assert.ok(file.basename)
     var deps = file.dependencies
     assert(deps['./something.css'])
+    assert.equal(deps['./something.css'].priority, 0)
     assert(deps['else.css'])
+    assert.equal(deps['else.css'].priority, 1)
     assert(deps['./something.css'].file.dependencies['what.css'])
   })
 
