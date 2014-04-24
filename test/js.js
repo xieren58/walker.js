@@ -100,3 +100,18 @@ describe('js-json', function () {
     })
   }))
 })
+
+describe('js-circular', function () {
+  var entrypoint = fixture('js-circular')
+  var walker
+  var tree
+
+  it('should walk', co(function* () {
+    walker = defaults(Walker().add(entrypoint))
+    tree = yield* walker.tree()
+  }))
+
+  it('should flatten', co(function* () {
+    Walker.flatten(tree)
+  }))
+})
